@@ -1,4 +1,4 @@
-import { MenuBarExtra, Icon, Color } from "@raycast/api";
+import { MenuBarExtra, Icon, Color, open } from "@raycast/api";
 import { useFetch } from "@raycast/utils";
 
 interface MigrationStatus {
@@ -67,27 +67,27 @@ export default function Command() {
           <MenuBarExtra.Section title="Status Details">
             <MenuBarExtra.Item
               title="Overall Migration"
-              subtitle={status?.migration}
+              subtitle={`- ${formatStatus(status?.migration)}`}
               icon={getStatusIcon(status?.migration)}
             />
             <MenuBarExtra.Item
               title="Users"
-              subtitle={status?.users}
+              subtitle={`- ${formatStatus(status?.users)}`}
               icon={getStatusIcon(status?.users)}
             />
             <MenuBarExtra.Item
               title="Files"
-              subtitle={status?.files}
+              subtitle={`- ${formatStatus(status?.files)}`}
               icon={getStatusIcon(status?.files)}
             />
             <MenuBarExtra.Item
               title="DMs"
-              subtitle={status?.dms}
+              subtitle={`- ${formatStatus(status?.dms)}`}
               icon={getStatusIcon(status?.dms)}
             />
             <MenuBarExtra.Item
               title="MPDMs"
-              subtitle={status?.mpdms}
+              subtitle={`- ${formatStatus(status?.mpdms)}`}
               icon={getStatusIcon(status?.mpdms)}
             />
           </MenuBarExtra.Section>
@@ -112,6 +112,11 @@ export default function Command() {
           </MenuBarExtra.Section>
 
           <MenuBarExtra.Section>
+            <MenuBarExtra.Item
+              title="Open Dashboard"
+              icon={Icon.Globe}
+              onAction={() => open("https://are-we-there-yet.hackclub.com")}
+            />
             <MenuBarExtra.Item
               title="Reload"
               icon={Icon.ArrowClockwise}
@@ -143,4 +148,12 @@ function formatDate(timestamp?: number) {
   if (!timestamp) return "-";
   // API seems to return unix timestamp in seconds based on 1764001800 (year 2025)
   return new Date(timestamp * 1000).toLocaleString();
+}
+
+function formatStatus(status?: string) {
+  if (!status) return "-";
+  return status
+    .split("_")
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(" ");
 }
