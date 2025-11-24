@@ -41,7 +41,18 @@ export default function Command() {
   const title = percent !== undefined ? `${percent.toFixed(2)}%` : "Loading...";
 
   // Determine icon color based on status
-  const iconColor = percent === 100 ? Color.Green : Color.Orange;
+  let iconColor = Color.SecondaryText;
+  if (percent !== undefined) {
+    if (percent === 100) {
+      iconColor = Color.Green;
+    } else if (percent >= 66) {
+      iconColor = Color.Yellow;
+    } else if (percent >= 33) {
+      iconColor = Color.Orange;
+    } else {
+      iconColor = Color.Red;
+    }
+  }
 
   return (
     <MenuBarExtra
@@ -131,6 +142,7 @@ export default function Command() {
 
 function getStatusIcon(status?: string) {
   switch (status) {
+    case "complete":
     case "completed":
       return { source: Icon.CheckCircle, tintColor: Color.Green };
     case "in_progress":
