@@ -182,7 +182,7 @@ export default function Command() {
               icon={getStatusIcon(status?.dms)}
             />
             <MenuBarExtra.Item
-              title="MPDMs"
+              title="Group DMs"
               subtitle={`- ${formatStatus(status?.mpdms)}`}
               icon={getStatusIcon(status?.mpdms)}
             />
